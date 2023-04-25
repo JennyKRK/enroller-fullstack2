@@ -8,15 +8,12 @@
     </div>
 
     <div v-else>
-<!--      //this part uses java script-->
       <button @click="registering=false" :class="registering ? 'button-outline' : ''">Logowanie.</button>
       <button @click="registering=true" :class="!registering ? 'button-outline' : ''">>Rejestracja.</button>
 
       <LoginForm v-if="!registering" @login="(user) => logMeIn(user)"></LoginForm>
       <LoginForm v-else @login="(user)=> register(user)" button-label="Zaloz konto"></LoginForm>
 
-<!--      <div v-if="failureLog"> Your account has not been added</div>-->
-<!--      <div v-else> OK </div>-->
 
       <div v-if="message" class = "alert">{{message}}</div>
 
