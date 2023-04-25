@@ -16,6 +16,7 @@
 
 
       <div v-if="message" class = "alert">{{message}}</div>
+       <h> </h>
 
     </div>
   </div>
@@ -74,7 +75,6 @@ export default {
           .catch(response => {
             // alert("unable to add")
             this.message = "Twoje konto nie zostalo zalozone"
-
           });
     }
 

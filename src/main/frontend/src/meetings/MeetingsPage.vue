@@ -3,6 +3,7 @@
     <NewMeetingForm @added="addNewMeeting($event)"></NewMeetingForm>
     <span v-if="meetings.length == 0">Brak zaplanowanych spotkań.</span>
     <h3 v-else>Zaplanowane zajęcia ({{ meetings.length }})</h3>
+
     <MeetingsList :meetings="meetings"
                   :username="username"
                   @attend="addMeetingParticipant($event)"
@@ -14,20 +15,31 @@
 <script>
 import NewMeetingForm from "./NewMeetingForm";
 import MeetingsList from "./MeetingsList";
+import axios from "axios";
 
 export default {
   components: {NewMeetingForm, MeetingsList},
   props: {username: String},
   data() {
     return {
-      meetings: []
+      meetings: [],
     };
   },
   methods: {
     addNewMeeting(meeting) {
       this.meetings.push(meeting);
+      axios.post('/api/meetings', meeting)
+            .then(response => {
+                 this.message = "Nowe spotkanie zostało dodane"
+
+            })
+            .catch(response => {
+                this.message = "Spotkanie nie zostało dodane"
+            });
     },
-    addMeetingParticipant(meeting) {
+
+
+      addMeetingParticipant(meeting) {
       meeting.participants.push(this.username);
     },
     removeMeetingParticipant(meeting) {
