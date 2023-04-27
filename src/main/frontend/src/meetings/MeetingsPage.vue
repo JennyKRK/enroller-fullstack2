@@ -15,7 +15,7 @@
 
 
 
-
+        <button @click="reloadTheList">Reload</button>
         <NewMeetingForm @added="addNewMeeting($event)"></NewMeetingForm>
         <span v-if="meetingsToBeDisplayed.length == 0">Brak zaplanowanych spotkań.</span>
         <h3 v-else>Zaplanowane zajęcia ({{ meetingsToBeDisplayed.length }})</h3>
@@ -24,7 +24,8 @@
                       :username="username"
                       @attend="addMeetingParticipant($event)"
                       @unattend="removeMeetingParticipant($event)"
-                      @delete="deleteMeeting($event)"></MeetingsList>
+                      @delete="deleteMeeting($event)"
+                  ></MeetingsList>
 
 <!--        <MeetingsList2 :meetingsOld="meetingsToBeDisplayed"-->
 <!--                      :username="username"-->
@@ -174,21 +175,25 @@ export default {
         },
 
         addNewMeeting(meeting) {
+
             this.meetings.push(meeting)
             this.meetings2.push(meeting)
             this.meetingsToBeDisplayed.push(meeting)
+
+
 
             axios.post('/api/meetings', meeting)
                 .then(response => {
                             //this part is important, it gives you id
                             console.log(response.data.id);
                             console.log(response.data);
-                            // alert(response.data.id);
 
                         })
                             .catch(function (error) {
                                 console.log(error);
                             });
+
+
 
 
             //alert( meeting.title + meeting.description + meeting.id)
@@ -211,10 +216,19 @@ export default {
         },
         deleteMeeting(meeting) {
             this.meetings.splice(this.meetings.indexOf(meeting), 1);
-            //axios.delete('/api/meetings/2')
-
-            //axios.delete('/api/meetings/'+this.meetings.indexOf(meeting))
+            let b = meeting.id;
+            alert(meeting.title + " " + meeting.id)
+            axios.delete('api/meetings/' + b).then(response => console.log(response.data)).catch(err => {
+                console.log("Error");})
+            // axios.delete('/api/meetings/2')
         },
+
+        reloadTheList() {
+            this.meetingsToBeDisplayed = [];
+            this.getInfo();
+        }
+
+
 
 }}
 </script>
