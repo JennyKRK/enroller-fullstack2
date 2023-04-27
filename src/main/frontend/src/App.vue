@@ -5,6 +5,7 @@
         <div v-if="authenticatedUsername">
             <UserPanel :username="authenticatedUsername" @logout="logMeOut()"></UserPanel>
             <MeetingsPage :username="authenticatedUsername"></MeetingsPage>
+            <RegisterForm></RegisterForm>
         </div>
 
         <div v-else>
@@ -14,6 +15,12 @@
             <LoginForm v-if="registering" @login="(user) => register(user)" button-label="Załóż konto"></LoginForm>
             <LoginForm v-else @login="(user) => logMeIn(user)"></LoginForm>
         </div>
+
+<!--        <button @click="simpletest()">simple test </button>-->
+
+<!--        <ul id="dsiplaying">-->
+<!--            <li v-for="meeting in meetingInfo" :key="meetingInfo.id">{{meeting.name}}-->
+<!--            </li></ul>-->
     </div>
 </template>
 
@@ -22,15 +29,17 @@ import "milligram";
 import LoginForm from "./LoginForm";
 import UserPanel from "./UserPanel";
 import MeetingsPage from "./meetings/MeetingsPage";
+import RegisterForm from "./meetings/RegisterForm";
 import axios from "axios";
 export default {
-    components: {LoginForm, MeetingsPage, UserPanel},
+    components: {LoginForm, MeetingsPage, UserPanel, RegisterForm},
     data() {
         return {
             authenticatedUsername: '',
             registering: false,
             message: '',
             isError: false,
+            meetingsUpdated: [],
         }
     },
     mounted() {
@@ -42,6 +51,10 @@ export default {
             axios.get(`/api/meetings`).catch(() => this.logMeOut());
         }
     },
+
+    // created(){
+    //     this.getInfo();
+    // },
     methods: {
         register(user) {
             this.clearMessage();
@@ -83,8 +96,21 @@ export default {
         clearMessage() {
             this.message = undefined;
         },
+        simpletest(){
+            var data = JSON.parse(localStorage.getItem("apiData"));
+            alert(data.meeting.title)
+
+
+
+        }
+
+
     }
+
 }
+
+
+
 </script>
 
 <style>

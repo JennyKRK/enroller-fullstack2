@@ -6,11 +6,12 @@
             <th>Opis</th>
             <th>Zapisani</th>
             <th>Akcje</th>
+<!--            <th>ID</th>-->
         </tr>
         </thead>
         <tbody>
-        <tr v-for="meeting in meetings" :key="meeting.name">
-            <td>{{ meeting.name }}</td>
+        <tr v-for="meeting in meetings" :key="meeting.title">
+            <td>{{ meeting.title }}</td>
             <td>{{ meeting.description }}</td>
             <td>
                 <ul v-if="meeting.participants">
@@ -29,7 +30,10 @@
                 <button v-if="meeting.participants.length === 0" class="button" @click="$emit('delete', meeting)">
                     Usuń puste spotkanie
                 </button>
+<!--                <button>{{meeting.name}}</button>-->
+
             </td>
+            <td>{{meeting.id}}</td>
         </tr>
         </tbody>
     </table>
@@ -39,7 +43,8 @@
 export default {
     props: {
         meetings: Array,
+        meetingsOld:Array,
         username: String,
-    }
+    },
 }
 </script>

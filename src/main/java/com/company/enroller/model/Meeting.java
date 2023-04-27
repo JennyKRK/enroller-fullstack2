@@ -12,7 +12,8 @@ import java.util.Set;
 public class Meeting {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    //modified 25.04.2023 @GeneratedValue(strategy=GenerationType.AUTO)
     private long id;
 
     @Column
@@ -74,4 +75,12 @@ public class Meeting {
         return participants;
     }
 
+    @Override
+    public String toString() {
+        return "Meeting{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                '}';
+    }
 }
