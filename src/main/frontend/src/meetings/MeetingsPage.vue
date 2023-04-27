@@ -17,8 +17,9 @@
 
 
         <NewMeetingForm @added="addNewMeeting($event)"></NewMeetingForm>
-        <span v-if="meetings.length == 0">Brak zaplanowanych spotkań.</span>
-        <h3 v-else>Zaplanowane zajęcia ({{ meetings.length }})</h3>
+        <span v-if="meetingsToBeDisplayed.length == 0">Brak zaplanowanych spotkań.</span>
+        <h3 v-else>Zaplanowane zajęcia ({{ meetingsToBeDisplayed.length }})</h3>
+<!--        <h3> test {{ store.count }}</h3>-->
         <MeetingsList :meetings="meetingsToBeDisplayed"
                       :username="username"
                       @attend="addMeetingParticipant($event)"
@@ -31,6 +32,8 @@
 <!--                      @unattend="removeMeetingParticipant($event)"-->
 <!--                      @delete="deleteMeeting($event)"></MeetingsList2>-->
 
+
+
     </div>
 </template>
 
@@ -39,9 +42,16 @@ import NewMeetingForm from "./NewMeetingForm";
 import MeetingsList from "./MeetingsList";
 import axios, {Axios} from "axios";
 import MeetingList2 from "@/meetings/MeetingList2.vue";
+import {store} from "@/meetings/store";
 export default {
+    computed: {
+        store() {
+            return store
+        }
+    },
     components: {NewMeetingForm, MeetingsList, MeetingList2},
-    props: {username: String},
+    props: {username: String,
+ },
     data() {
         return {
             meetings: [],
@@ -56,15 +66,25 @@ export default {
     //     });
     //     console.log(response.data);
     // },
-    created(){
+     created(){
         this.getInfo();
     },
+
+
 
     methods: {
         getInfo(){
 
+
+
+
+
             // for (let i = 1; i < 9; i++) {
             //     console.log(i);
+            //     axios.get('api/meetings/' + i).then(response => console.log(response.data))   .catch(err => {
+            //         console.log("Error2");
+            //     });
+            // }
             //     this.pushitem(i)
             // }
             // axios.get(`/api/meetings`)
@@ -81,37 +101,48 @@ export default {
 
 
 
-            // let a = 1;
-
             //
-            // // axios.get('api/meetings/' + a).then(response => console.log(response.data)).catch(err => {
-            // //     console.log("Error");
-            // // });
             //
-            axios.get('api/meetings/1').then(response => this.meetingsToBeDisplayed.push(response.data))
-                .catch(err => {
+            //
+            // //
+            // axios.get('api/meetings/1').then(response => this.meetingsToBeDisplayed.push(response.data))
+            //     .catch(err => {
+            //         console.log("Error");
+            //     });
+            //
+            // axios.get('api/meetings/2').then(response => this.meetingsToBeDisplayed.push(response.data))
+            //     .catch(err => {
+            //         console.log("Error");
+            //     });
+            //
+            // axios.get('api/meetings/3').then(response => this.meetingsToBeDisplayed.push(response.data))
+            //     .catch(err => {
+            //         console.log("Error");
+            //     });
+            //
+            // axios.get('api/meetings/4').then(response => this.meetingsToBeDisplayed.push(response.data))
+            //     .catch(err => {
+            //         console.log("Error");
+            //     });
+            //
+            // axios.get('api/meetings/5').then(response => this.meetingsToBeDisplayed.push(response.data))
+            //     .catch(err => {
+            //         console.log("Error");
+            //     })
+
+            let a = 1;
+
+
+            // axios.get('api/meetings/' + a).then(response => this.meetingsToBeDisplayed.push(response.data)).catch(err => {
+            //     console.log("Error");
+            // });
+
+            while (a - 1 <= store.count) {
+                axios.get('api/meetings/' + a).then(response => this.meetingsToBeDisplayed.push(response.data)).catch(err => {
                     console.log("Error");
                 });
-
-            axios.get('api/meetings/2').then(response => this.meetingsToBeDisplayed.push(response.data))
-                .catch(err => {
-                    console.log("Error");
-                });
-
-            axios.get('api/meetings/3').then(response => this.meetingsToBeDisplayed.push(response.data))
-                .catch(err => {
-                    console.log("Error");
-                });
-
-            axios.get('api/meetings/4').then(response => this.meetingsToBeDisplayed.push(response.data))
-                .catch(err => {
-                    console.log("Error");
-                });
-
-            axios.get('api/meetings/5').then(response => this.meetingsToBeDisplayed.push(response.data))
-                .catch(err => {
-                    console.log("Error");
-                })
+                a++;
+            }
             // axios.get('api/meetings/1').then(response => console.log(response.data))
             //     .catch(err => {
             //     console.log("Error");

@@ -5,7 +5,7 @@
         <div v-if="authenticatedUsername">
             <UserPanel :username="authenticatedUsername" @logout="logMeOut()"></UserPanel>
             <MeetingsPage :username="authenticatedUsername"></MeetingsPage>
-            <RegisterForm></RegisterForm>
+<!--            <RegisterForm></RegisterForm>-->
         </div>
 
         <div v-else>
@@ -32,7 +32,7 @@ import MeetingsPage from "./meetings/MeetingsPage";
 import RegisterForm from "./meetings/RegisterForm";
 import axios from "axios";
 export default {
-    components: {LoginForm, MeetingsPage, UserPanel, RegisterForm},
+    components: {LoginForm, MeetingsPage, UserPanel},
     data() {
         return {
             authenticatedUsername: '',

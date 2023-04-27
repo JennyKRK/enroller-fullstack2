@@ -13,13 +13,15 @@
 
 <script>
 import meetingsList from "@/meetings/MeetingsList.vue";
+import {store} from "@/meetings/store";
+
+
 
 export default {
     data() {
         return {
             newMeeting: {participants: []},
             error: false,
-            counter: 0,
         };
     },
     methods: {
@@ -30,6 +32,7 @@ export default {
 
                 this.$emit('added', this.newMeeting);
                 this.newMeeting = {participants: []};
+                store.increment();
 
             } else {
                 this.error = true;
