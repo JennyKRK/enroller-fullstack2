@@ -8,8 +8,9 @@
             <th>Zapisani</th>
             <th>Usun</th>
             <th>Akcje</th>
+            <th>Testy</th>
 
-<!--            <th>ID</th>-->
+
         </tr>
         </thead>
         <tbody>
@@ -18,32 +19,45 @@
             <td>{{ meeting.description }}</td>
             <td>{{meeting.id}}</td>
             <td>
+                {{meeting.participants}}
                 <ul v-if="meeting.participants">
                     <li v-for="participant in meeting.participants" :key="participant">
                         {{ participant }}
                     </li>
                 </ul>
-            </td>
+
+
+
+<!--                    {{meeting.participants}}-->
+
+
             <td>
                 <button class="button" @click="$emit('delete', meeting)">
                     Usuń spotkanie</button>
             </td>
-            <td style="text-align: right; min-width: 400px" v-if="meeting.participants">
-                <button v-if="meeting.participants.indexOf(username) < 0"
-                        class="button-outline"
-                        @click="$emit('attend', meeting)">
-                    Zapisz się
-                </button>
-                <button v-else class="button-outline" @click="$emit('unattend', meeting)">Wypisz się</button>
-<!--                <button v-if="meeting.participants.length === 0" class="button" @click="$emit('delete', meeting)">-->
-<!--                    Usuń puste spotkanie-->
+<!--            <td style="text-align: right; min-width: 400px" v-if="meeting.participants">-->
+<!--                <button v-if="meeting.participants.indexOf(username) < 0"-->
+<!--                        class="button-outline"-->
+<!--                        @click="$emit('attend', meeting)">-->
+<!--                    Zapisz się-->
 <!--                </button>-->
+<!--                <button v-else class="button-outline" @click="$emit('unattend', meeting)">Wypisz się</button>-->
+<!--&lt;!&ndash;                <button v-if="meeting.participants.length === 0" class="button" @click="$emit('delete', meeting)">&ndash;&gt;-->
+<!--&lt;!&ndash;                    Usuń puste spotkanie&ndash;&gt;-->
+<!--&lt;!&ndash;                </button>&ndash;&gt;-->
 
 
-                    <!--                <button>{{meeting.name}}</button>-->
+<!--                    &lt;!&ndash;                <button>{{meeting.name}}</button>&ndash;&gt;-->
 
-            </td>
-<!--            <td>{{meeting.id}}</td>-->
+<!--            </td>-->
+<!--            <td>  <button class="button" @click="$emit('attend', meeting)">-->
+<!--                Zapisz się</button></td>-->
+
+        <td>
+
+
+        </td>
+
         </tr>
         </tbody>
     </table>

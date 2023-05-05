@@ -15,23 +15,20 @@
 
 
 
-        <button @click="reloadTheList">Reload</button>
+
         <NewMeetingForm @added="addNewMeeting($event)"></NewMeetingForm>
         <span v-if="meetingsToBeDisplayed.length == 0">Brak zaplanowanych spotkań.</span>
         <h3 v-else>Zaplanowane zajęcia ({{ meetingsToBeDisplayed.length }})</h3>
+        <br>
+        <button @click="reloadTheList">Odswiez strone</button>
 <!--        <h3> test {{ store.count }}</h3>-->
         <MeetingsList :meetings="meetingsToBeDisplayed"
                       :username="username"
                       @attend="addMeetingParticipant($event)"
                       @unattend="removeMeetingParticipant($event)"
                       @delete="deleteMeeting($event)"
+                      @info="getMoreInfo($event)"
                   ></MeetingsList>
-
-<!--        <MeetingsList2 :meetingsOld="meetingsToBeDisplayed"-->
-<!--                      :username="username"-->
-<!--                      @attend="addMeetingParticipant($event)"-->
-<!--                      @unattend="removeMeetingParticipant($event)"-->
-<!--                      @delete="deleteMeeting($event)"></MeetingsList2>-->
 
 
 
@@ -42,7 +39,6 @@
 import NewMeetingForm from "./NewMeetingForm";
 import MeetingsList from "./MeetingsList";
 import axios, {Axios} from "axios";
-import MeetingList2 from "@/meetings/MeetingList2.vue";
 import {store} from "@/meetings/store";
 export default {
     computed: {
@@ -50,7 +46,7 @@ export default {
             return store
         }
     },
-    components: {NewMeetingForm, MeetingsList, MeetingList2},
+    components: {NewMeetingForm, MeetingsList},
     props: {username: String,
  },
     data() {
@@ -61,12 +57,6 @@ export default {
         //     this part needs to be reworked, now the meeting list gets cleared
         };
     },
-    // mounted: function() {
-    //     axios.get('/api/meetings').then((res) => {
-    //         localStorage.setItem("apiData", JSON.stringify(res.data));
-    //     });
-    //     console.log(response.data);
-    // },
      created(){
         this.getInfo();
     },
@@ -79,85 +69,22 @@ export default {
 
 
 
-
-            // for (let i = 1; i < 9; i++) {
-            //     console.log(i);
-            //     axios.get('api/meetings/' + i).then(response => console.log(response.data))   .catch(err => {
-            //         console.log("Error2");
-            //     });
-            // }
-            //     this.pushitem(i)
-            // }
-            // axios.get(`/api/meetings`)
-            //     .then(response =>
-            //         console.log(response.data)),
-            //this part - works :)))))))))))))))))) why?
-            //
-            // for (var x=1; x<11; x++) {
-            //     axios.get('api/meetings/' + x).then(response => console.log(response.data)).catch(err => {
-            //         console.log("Error");
-            //     });
-            // }
+            let a = 0;
 
 
-
-
-            //
-            //
-            //
-            // //
-            // axios.get('api/meetings/1').then(response => this.meetingsToBeDisplayed.push(response.data))
-            //     .catch(err => {
-            //         console.log("Error");
-            //     });
-            //
-            // axios.get('api/meetings/2').then(response => this.meetingsToBeDisplayed.push(response.data))
-            //     .catch(err => {
-            //         console.log("Error");
-            //     });
-            //
-            // axios.get('api/meetings/3').then(response => this.meetingsToBeDisplayed.push(response.data))
-            //     .catch(err => {
-            //         console.log("Error");
-            //     });
-            //
-            // axios.get('api/meetings/4').then(response => this.meetingsToBeDisplayed.push(response.data))
-            //     .catch(err => {
-            //         console.log("Error");
-            //     });
-            //
-            // axios.get('api/meetings/5').then(response => this.meetingsToBeDisplayed.push(response.data))
-            //     .catch(err => {
-            //         console.log("Error");
-            //     })
-
-            let a = 1;
-
-
-            // axios.get('api/meetings/' + a).then(response => this.meetingsToBeDisplayed.push(response.data)).catch(err => {
-            //     console.log("Error");
-            // });
-
-            while (a - 1 <= store.count) {
-                axios.get('api/meetings/' + a).then(response => this.meetingsToBeDisplayed.push(response.data)).catch(err => {
-                    console.log("Error");
-                });
+            while (store.count > a) {
                 a++;
+                axios.get('api/meetings/' + a).then(response => this.meetingsToBeDisplayed.push(response.data)).catch(err => {
+
+
+
+                        console.log("Err");
+
+
+                });
+
             }
-            // axios.get('api/meetings/1').then(response => console.log(response.data))
-            //     .catch(err => {
-            //     console.log("Error");
-            // });
-            //
-            // axios.get('api/meetings/1').then(response => console.log(response.data.id)).catch(err => {
-            //     console.log("Error");
-            // });
-            // axios.get('api/meetings/1').then(response => console.log(response.data.title)).catch(err => {
-            //     console.log("Error");
-            // });
-            // axios.get('api/meetings/1').then(response => console.log(response.data.description))
-            // axios.get('api/meetings/2').then(response => console.log(response.data))
-            // axios.get('api/meetings/3').then(response => console.log(response.data))
+
 
         }
         ,
@@ -175,6 +102,9 @@ export default {
         },
 
         addNewMeeting(meeting) {
+
+            meeting.participants = Array();
+
 
             this.meetings.push(meeting)
             this.meetings2.push(meeting)
@@ -196,28 +126,35 @@ export default {
 
 
 
-            //alert( meeting.title + meeting.description + meeting.id)
-            // axios.post("/api/meetings", meeting)
-            //     .then(response => this.meetingId = response.data.id);
 
 
 
-
-
-            //meeting.name
-            //meeting.descrition
         },
+
         addMeetingParticipant(meeting) {
-            meeting.participants.push(this.username)
-            //axios.post('api/meetings/{id}/participants',this.username)
+            // meeting.participants.push(this.username);
+            //
+
+            let b = meeting.id;
+            //alert(meeting.id);
+            let a = this.username;
+            let theurl = 'api/meetings/' + b + '/participants/';
+            axios.get('api/participants/' + a).then(response =>
+                axios.post(theurl,response.data)
+            );
+
         },
+
+
+
+
         removeMeetingParticipant(meeting) {
             meeting.participants.splice(meeting.participants.indexOf(this.username), 1);
         },
         deleteMeeting(meeting) {
             this.meetings.splice(this.meetings.indexOf(meeting), 1);
             let b = meeting.id;
-            alert(meeting.title + " " + meeting.id)
+            alert("Odswiez strone")
             axios.delete('api/meetings/' + b).then(response => console.log(response.data)).catch(err => {
                 console.log("Error");})
             // axios.delete('/api/meetings/2')
@@ -226,7 +163,8 @@ export default {
         reloadTheList() {
             this.meetingsToBeDisplayed = [];
             this.getInfo();
-        }
+        },
+
 
 
 

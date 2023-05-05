@@ -5,7 +5,7 @@
         <div v-if="authenticatedUsername">
             <UserPanel :username="authenticatedUsername" @logout="logMeOut()"></UserPanel>
             <MeetingsPage :username="authenticatedUsername"></MeetingsPage>
-<!--            <RegisterForm></RegisterForm>-->
+
         </div>
 
         <div v-else>
@@ -16,11 +16,6 @@
             <LoginForm v-else @login="(user) => logMeIn(user)"></LoginForm>
         </div>
 
-<!--        <button @click="simpletest()">simple test </button>-->
-
-<!--        <ul id="dsiplaying">-->
-<!--            <li v-for="meeting in meetingInfo" :key="meetingInfo.id">{{meeting.name}}-->
-<!--            </li></ul>-->
     </div>
 </template>
 
@@ -29,7 +24,6 @@ import "milligram";
 import LoginForm from "./LoginForm";
 import UserPanel from "./UserPanel";
 import MeetingsPage from "./meetings/MeetingsPage";
-import RegisterForm from "./meetings/RegisterForm";
 import axios from "axios";
 export default {
     components: {LoginForm, MeetingsPage, UserPanel},
@@ -52,9 +46,6 @@ export default {
         }
     },
 
-    // created(){
-    //     this.getInfo();
-    // },
     methods: {
         register(user) {
             this.clearMessage();
@@ -96,15 +87,6 @@ export default {
         clearMessage() {
             this.message = undefined;
         },
-        simpletest(){
-            var data = JSON.parse(localStorage.getItem("apiData"));
-            alert(data.meeting.title)
-
-
-
-        }
-
-
     }
 
 }
