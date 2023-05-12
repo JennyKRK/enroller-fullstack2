@@ -20,8 +20,9 @@
         <span v-if="todos.length == 0">Brak zaplanowanych spotkań.</span>
         <h3 v-else>Zaplanowane zajęcia ({{ todos.length }})</h3>
         <br>
-<!--        <button @click="reloadTheList">Odswiez strone</button>-->
+<!--        <button @click="reloadTheList">Odswiez strone...</button>-->
 <!--        <h3> test {{ store.count }}</h3>-->
+
         <MeetingsList :meetings="todos"
                       :username="username"
                       @attend="addMeetingParticipant($event)"
