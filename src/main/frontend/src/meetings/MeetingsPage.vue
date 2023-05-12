@@ -169,7 +169,7 @@ export default {
             this.todos.splice(this.todos.indexOf(meeting), 1);
             this.meetings.splice(this.meetings.indexOf(meeting), 1);
             let b = meeting.id;
-            alert("Odswiez strone")
+            // alert("Odswiez strone")
             axios.delete('api/meetings/' + b).then(response => console.log(response.data)).catch(err => {
                 console.log("Error");})
             // axios.delete('/api/meetings/2')
