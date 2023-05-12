@@ -38,16 +38,16 @@
 <!--                    Zapisz się-->
 <!--                </button>-->
 <!--                <button v-else class="button-outline" @click="$emit('unattend', meeting)">Wypisz się</button>-->
-<!--                <button v-if="meeting.participants.length < 1" class="button" @click="$emit('delete', meeting)">-->
-<!--                    Usuń puste spotkanie-->
-<!--                </button>-->
+<!--&lt;!&ndash;                <button v-if="meeting.participants.length === 0" class="button" @click="$emit('delete', meeting)">&ndash;&gt;-->
+<!--&lt;!&ndash;                    Usuń puste spotkanie&ndash;&gt;-->
+<!--&lt;!&ndash;                </button>&ndash;&gt;-->
 
 
-<!--                                    <button>{{meeting.name}}</button>-->
+<!--                    &lt;!&ndash;                <button>{{meeting.name}}</button>&ndash;&gt;-->
 
 <!--            </td>-->
-            <td>  <button class="button" @click="$emit('attend', meeting)">
-                Zapisz się</button></td>
+<!--            <td>  <button class="button" @click="$emit('attend', meeting)">-->
+<!--                Zapisz się</button></td>-->
 
         <td>
         </td>

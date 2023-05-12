@@ -17,12 +17,12 @@
 
 
         <NewMeetingForm @added="addNewMeeting($event)"></NewMeetingForm>
-        <span v-if="todos.length == 0">Brak zaplanowanych spotkań.</span>
-        <h3 v-else>Zaplanowane zajęcia ({{ todos.length }})</h3>
+        <span v-if="meetingsToBeDisplayed.length == 0">Brak zaplanowanych spotkań.</span>
+        <h3 v-else>Zaplanowane zajęcia ({{ meetingsToBeDisplayed.length }})</h3>
         <br>
-<!--        <button @click="reloadTheList">Odswiez strone</button>-->
+        <button @click="reloadTheList">Odswiez strone</button>
 <!--        <h3> test {{ store.count }}</h3>-->
-        <MeetingsList :meetings="todos"
+        <MeetingsList :meetings="meetingsToBeDisplayed"
                       :username="username"
                       @attend="addMeetingParticipant($event)"
                       @unattend="removeMeetingParticipant($event)"
@@ -36,7 +36,7 @@
 </template>
 
 <script>
-let id =1;
+let id =0;
 import NewMeetingForm from "./NewMeetingForm";
 import MeetingsList from "./MeetingsList";
 import axios, {Axios} from "axios";
@@ -55,13 +55,11 @@ export default {
             meetings: [],
             meetings2: [],
             meetingsToBeDisplayed: [],
-            todos: [],
-            // todos: [
-            //     { id: id++, title: 'Learn HTML', description:'test1', participants: []},
-            //     { id: id++, title: 'Learn JavaScript', description: 'test2',participants: []},
-            // ],
+            todos: [
+                { id: id++, title: 'Learn HTML', description:'test1', participants: []},
+                { id: id++, title: 'Learn JavaScript', description: 'test2',participants: []},
+            ],
             newTodo: '',
-            participantsList: [],
 
             //     this part needs to be reworked, now the meeting list gets cleared
         };
@@ -83,19 +81,16 @@ export default {
 
             while (store.count > a) {
                 a++;
-                axios.get('api/meetings/' + a).then(response => this.todos.push(response.data)).catch(err => {
-                    console.log("Err");
+                axios.get('api/meetings/' + a).then(response => this.meetingsToBeDisplayed.push(response.data)).catch(err => {
+
+
+
+                        console.log("Err");
+
+
                 });
 
             }
-
-            // while (store.count > a) {
-            //     a++;
-            //     axios.get('api/meetings/' + a).then(response => this.meetingsToBeDisplayed.push(response.data)).catch(err => {
-            //         console.log("Err");
-            //     });
-            //
-            // }
 
 
         }
@@ -121,7 +116,6 @@ export default {
             this.meetings.push(meeting)
             this.meetings2.push(meeting)
             this.meetingsToBeDisplayed.push(meeting)
-            this.todos.push({id: id++, title: meeting.title, description: meeting.description,participants: []})
 
 
 
@@ -165,7 +159,6 @@ export default {
             meeting.participants.splice(meeting.participants.indexOf(this.username), 1);
         },
         deleteMeeting(meeting) {
-            this.todos.splice(this.todos.indexOf(meeting), 1);
             this.meetings.splice(this.meetings.indexOf(meeting), 1);
             let b = meeting.id;
             alert("Odswiez strone")
